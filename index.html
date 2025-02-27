@@ -68,9 +68,13 @@
         <button class="carousel-btn prev" onclick="prevSlide()">&#10094;</button>
         <button class="carousel-btn next" onclick="nextSlide()">&#10095;</button>
       </div>
-  <!-- Grab Now Button with Price --> <br><div class="grab-now-container"> <button class="grab-now-btn" onclick="scrollToForm()">Read Now</button> <span class="theme-color">@₹137</span> </div> <hr /> <!-- Payment QR Code Section --> <div class="payment-section"> <h3>Scan to Pay</h3> <br> <center><img src="./assets/images/MOBIQUICK_QR.png" alt="Mobikwik Payment QR Code"></center>
-     <br>
- </div>  <br><form id="shipping-form"> 
+  <!-- Grab Now Button with Price --> <br><div class="grab-now-container"> <button class="grab-now-btn" onclick="scrollToForm()">Read Now</button> <span class="theme-color">@₹137</span> </div> <hr /> 
+     <br> <div class="grab-now-container">
+    <a href="upi://pay?pa=7983239853@mbk&pn=INKED%20BY%20ANSHUL&am=137&cu=INR" class="grab-now-btn">
+        Pay ₹137 via UPI
+    </a>
+</div>
+ </div> <div class="container"> <p><center>256-bit Payment Encryption</center></p> <hr /> <br><form id="shipping-form"> 
       <br>
      
       <h2>Shipping Address</h2> 
@@ -102,7 +106,7 @@
 
     setInterval(nextSlide, 3000); // Auto-slide every 3 seconds
   </script>
-    <script>
+   <script>
     emailjs.init("-M2E86myTW1WMc8Gy"); // Your EmailJS public key
 
     function sendEmail(event) {
@@ -121,7 +125,7 @@
         emailjs.send('service_99nfqru', 'template_oemsjif', templateParams)
             .then(function(response) {
                 console.log('SUCCESS!', response.status, response.text);
-                alert('Address added successfully! Press close');
+                alert('Order placed successfully!  Press Close');
 
                 // Redirect to UPI payment link after success
                 window.location.href = "upi://pay?pa=7983239853@mbk&pn=INKED%20BY%20ANSHUL&mc=&tid=&tr=&tn=Book%20Purchase&am=137&cu=INR";
@@ -134,7 +138,6 @@
     document.getElementById('shipping-form').addEventListener('submit', sendEmail);
 </script>
 
-    
             
    
     
