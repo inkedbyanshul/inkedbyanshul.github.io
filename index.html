@@ -143,6 +143,76 @@
     document.getElementById('shipping-form').addEventListener('submit', sendEmail);
 </script>
 
+
+
+<script>
+    document.getElementById("state").addEventListener("change", updatePrice);
+    document.getElementById("pincode").addEventListener("input", updatePrice);
+    document.getElementById("order-btn").addEventListener("click", processPayment);
+
+    function updatePrice() {
+        let selectedState = document.getElementById("state").value;
+        let pincode = document.getElementById("pincode").value;
+        let basePrice = 137;
+        let delhiCharge = 15;
+        let upHaryanaCharge = 3;
+        let extraCharge = 50;
+        let totalPrice = basePrice;
+
+        // List of Western UP + Southern Saharanpur + NCR Haryana pincodes
+        let validPincodes = [
+            // Western UP
+            "201001", "201002", "201003", "201004", "201005", "201006", // Ghaziabad
+            "202001", "202002", "202003", // Aligarh
+            "203001", "203002", "203003", // Bulandshahr
+            "204101", "204102", "204103", // Hathras
+            "250001", "250002", "250003", // Meerut
+            "251001", "251002", "251003", // Muzaffarnagar
+
+            // Southern Saharanpur (Deoband, Rampur Maniharan, Nakur, Gangoh)
+            "247554", "247551", "247552", "247554", "247555", // Deoband
+            "247451", "247452", "247453", "247454", // Rampur Maniharan
+            "247340", "247341", "247342", // Nakur
+            "247341", "247343", "247344", // Gangoh
+
+            // NCR Haryana
+            "122001", "122002", "122003", "122004", "122005", "122006", "122007", // Gurugram
+            "121001", "121002", "121003", "121004", "121005", "121006", "121007", // Faridabad
+            "131001", "131002", "131021", "131023", "131029", // Sonipat
+            "124507", "124505", "124506", // Bahadurgarh
+            "121102", "121105", "121106", "121107" // Palwal
+        ];
+
+        // Apply shipping charge logic
+        if (selectedState === "Delhi") {
+            totalPrice += delhiCharge;
+        } 
+        else if (validPincodes.includes(pincode)) {
+            totalPrice += upHaryanaCharge; // Add ₹3 for Western UP & NCR Haryana
+        } 
+        else {
+            totalPrice += extraCharge; // Add ₹50 for all other regions
+        }
+
+        // Update the Order button and total price dynamically
+        document.getElementById("order-btn").innerText = "Order @ ₹" + totalPrice;
+        document.getElementById("total-price").innerText = "Total: ₹" + totalPrice;
+        document.getElementById("order-btn").setAttribute("data-price", totalPrice); // Store the price
+    }
+
+    function processPayment(event) {
+        event.preventDefault(); // Prevent default form submission
+
+        let totalPrice = document.getElementById("order-btn").getAttribute("data-price") || 137;
+
+        // Generate UPI payment link dynamically
+        let upiID = "7983239853@mbk"; // Your UPI ID
+        let paymentLink = `upi://pay?pa=${upiID}&pn=INKED%20BY%20ANSHUL&mc=&tid=&tr=&tn=Book%20Purchase&am=${totalPrice}&cu=INR`;
+
+        // Redirect user to UPI payment
+        window.location.href = paymentLink;
+    }
+</script>
             
    
     
